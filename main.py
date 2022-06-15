@@ -35,7 +35,7 @@ def asal(num):
 
 #Mesajı verilen değerlere göre şifreleyen fonksiyon
 def encryption(e, n):
-    message = 211
+    message = 2
     print("mesaj:" + str(message))
     cip = pow(message, e)
     cip = cip % n
