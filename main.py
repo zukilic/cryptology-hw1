@@ -5,6 +5,15 @@
 import math
 import sys
 
+#Verilen iki sayının ebobunu bulur.
+def gcd(p,q):
+    while q != 0:
+        p, q = q, p%q
+    return p
+
+def is_coprime(x, y):
+    return gcd(x, y) == 1
+
 #Girilen sayinin basamak sayisini döndürür
 def basamakSayisi(num):
     count = 0
@@ -25,22 +34,22 @@ def asal(num):
         return False
 
 #Mesajı verilen değerlere göre şifreleyen fonksiyon
-def encryption(phi, e, n):
-    message = 3
-    c = pow(message, e)
-    c = math.fmod(c, n)
-    return c
+def encryption(e, n):
+    message = 211
+    print("mesaj:" + str(message))
+    cip = pow(message, e)
+    cip = cip % n
+    return cip
 
 #Şifrelenmiş mesajı kıran fonksiyon
 def decryption(c, d, n):
     m = pow(c, d)
-    m = math.fmod(m, n)
+    m = m % n
     return m
 
 p = 0
 q = 0
 e = 0
-
 
 while (not(basamakSayisi(p) == 2 and asal(p))):
     print("p giriniz:")
@@ -54,7 +63,7 @@ while (not(basamakSayisi(q) == 2 and asal(q))) or (p == q):
 n = p * q
 phi = (p - 1) * (q - 1)
 
-while (basamakSayisi(e) != 2 or e >= phi):
+while (basamakSayisi(e) != 2 or not(is_coprime(e, phi))):
     print("e giriniz:")
     e = int(input())
 
@@ -64,12 +73,18 @@ print("e:" + str(e))
 print("phi:" + str(phi))
 print("n:" + str(n))
 
-k = 3
-d = (1 + (k * phi))/e
+#k = 2
+#d = (1 + (k * phi))/e
 
-c = encryption(phi, e, n)
+d=0
+while((e*d)%phi != 1):
+    d=d+1
+
+c = encryption(e, n)
 mesaj = decryption(c, d, n)
 
 print("d:" + str(d))
 print("sifrelenmis olan mesaj(c): " + str(c))
-print("sifresi cozulen yani asil mesaj:" + str(decryption(c, d, n)))
+print("sifresi cozulen yani asil mesaj:" + str(mesaj))
+
+
